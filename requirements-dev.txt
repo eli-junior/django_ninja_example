@@ -1,0 +1,12 @@
+black
+faker
+flake8
+ipython
+isort
+parameterized
+pytest
+pytest-cov
+pytest-django
+pytest-subtests
+pytest-sugar
+pytest-watch

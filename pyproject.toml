@@ -1,0 +1,41 @@
+[tool.black]
+line-length = 140
+target-version = ['py311']
+
+[tool.isort]
+profile = "django"
+line_length = 140
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "devices_backend.settings"
+python_files = "test_*.py"
+minversion = "7.4.0"
+pythonpath = "./devices_backend/**/test_*.py"
+addopts = """
+    -ra -q -s -x -vvv \
+    --doctest-modules \
+    --disable-pytest-warnings \
+    --cov=devices_backend \
+    --cov-report=html:coverage
+    """
+
+[tool.coverage.report]
+skip_empty = true
+branch = true
+source = "devices_backend/**/*.py"
+omit = [
+    "devices_backend/**/migrations/*.py",
+    "devices_backend/*.py",
+    "devices_backend/**/populate_recipes.py",
+    "devices_backend/**/factory.py"
+]
+
+[tool.taskipy.tasks]
+lint = 'make lint'
+format = 'make format'
+run = 'make run'
+migrate = 'make migrate'
+migrations = 'make migrations'
+shell = 'make shell'
+pre_test = 'make lint'
+test = 'make test'

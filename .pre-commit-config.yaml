@@ -1,0 +1,50 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+  hooks:
+    - id: check-ast
+    - id: check-case-conflict
+    - id: check-docstring-first
+    - id: check-json
+    - id: check-yaml
+    - id: check-merge-conflict
+    - id: debug-statements
+    - id: end-of-file-fixer
+    - id: mixed-line-ending
+    - id: requirements-txt-fixer
+    - id: trailing-whitespace
+
+- repo: https://github.com/psf/black
+  rev: 23.12.1
+  hooks:
+  - id: black
+    language_version: python3.11
+    description: "Black: The uncompromising Python code formatter"
+    require_serial: true
+    types: [python]
+    args: [
+      "-l 140",
+      "--verbose"
+    ]
+
+- repo: https://github.com/timothycrosley/isort
+  rev: 5.13.2
+  hooks:
+    - id: isort
+      args: [
+        "--profile=black",
+        "--lines-after-import=2"
+      ]
+      exclude: 'contrib/'
+
+- repo: local
+  hooks:
+  - id: pip-compile
+    name: compile requirements.txt
+    entry: pip-compile
+    language: system
+    always_run: false
+    files: requirements.in
+    stages: [push]
