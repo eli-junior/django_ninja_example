@@ -12,7 +12,7 @@
             "django": true,
             "justMyCode": true,
             "env": {
-                "DJANGO_SETTINGS_MODULE": "devices_backend.settings",
+                "DJANGO_SETTINGS_MODULE": "PROJ3CT.settings",
                 "PYTHONPATH": "${workspaceFolder}"
             }
         }

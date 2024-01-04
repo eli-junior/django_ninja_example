@@ -23,9 +23,10 @@ INSTALLED_APPS = [
     # 3rd-party apps
     "django_extensions",
     # Local apps
-    # "devices_backend.core.apps.CoreConfig",
-    "devices_backend.core",
+    "PROJ3CT.core",
+    "PROJ3CT.cadastro",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -37,7 +38,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "devices_backend.urls"
+ROOT_URLCONF = "PROJ3CT.urls"
 
 TEMPLATES = [
     {
@@ -55,7 +56,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "devices_backend.wsgi.application"
+WSGI_APPLICATION = "PROJ3CT.wsgi.application"
 
 DEFAULT_DB = f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
 DATABASES = {"default": config("DATABASE_URL", default=DEFAULT_DB, cast=db_url)}

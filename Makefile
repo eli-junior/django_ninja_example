@@ -1,5 +1,5 @@
 ENV=development
-PROJECT=devices_backend
+PROJECT=PROJ3CT
 
 TEST_FOLDER=./tests
 

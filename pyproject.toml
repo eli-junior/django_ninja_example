@@ -7,27 +7,27 @@ profile = "django"
 line_length = 140
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "devices_backend.settings"
+DJANGO_SETTINGS_MODULE = "PROJ3CT.settings"
 python_files = "test_*.py"
 minversion = "7.4.0"
-pythonpath = "./devices_backend/**/test_*.py"
+pythonpath = "./PROJ3CT/**/test_*.py"
 addopts = """
     -ra -q -s -x -vvv \
     --doctest-modules \
     --disable-pytest-warnings \
-    --cov=devices_backend \
+    --cov=PROJ3CT \
     --cov-report=html:coverage
     """
 
 [tool.coverage.report]
 skip_empty = true
 branch = true
-source = "devices_backend/**/*.py"
+source = "PROJ3CT/**/*.py"
 omit = [
-    "devices_backend/**/migrations/*.py",
-    "devices_backend/*.py",
-    "devices_backend/**/populate_recipes.py",
-    "devices_backend/**/factory.py"
+    "PROJ3CT/**/migrations/*.py",
+    "PROJ3CT/*.py",
+    "PROJ3CT/**/populate_recipes.py",
+    "PROJ3CT/**/factory.py"
 ]
 
 [tool.taskipy.tasks]

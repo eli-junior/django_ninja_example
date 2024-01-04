@@ -10,7 +10,7 @@
 
 ## 🤔 Sobre
 
-O [**devices_backend**](https://link) é um software de processamento Backend, que fornece **APIs** para...
+O [**PROJ3CT**](https://link) é um software de processamento Backend, que fornece **APIs** para...
 
 ## 🚀 Tecnologias
 

@@ -12,6 +12,6 @@ import os
 from django.core.wsgi import get_wsgi_application
 
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "devices_backend.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "PROJ3CT.settings")
 
 application = get_wsgi_application()
