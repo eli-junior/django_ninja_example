@@ -1,5 +1,5 @@
 from collections import namedtuple
-from random import choice
+from random import choice, sample
 
 from faker import Faker
 
@@ -138,9 +138,13 @@ JOGADORES = (
 # Agora, 'lista_de_jogadores' é uma lista Python contendo os nomes dos jogadores.
 
 
-def time_json_factory(nome: str | None = None):
-    return time(nome or choice(TIMES))
+def time_factory(nome: str | None = None, qtty: int = 1):
+    if qtty <= 0 and qtty > len(TIMES):
+        raise ValueError(f"Quantidade de times deve ser menor ou igual a {len(TIMES)}")
+    return [time(t) for t in sample(TIMES, qtty)]
 
 
-def jogador_json_factory(nome: str = "", idade: int = 0):
-    return jogador(nome or choice(JOGADORES), idade or fake.random_int(min=18, max=40))
+def jogador_factory(nome: str = "", idade: int = 0, qtty: int = 1):
+    if qtty <= 0 or qtty > len(JOGADORES):
+        raise ValueError(f"Quantidade de jogadores deve ser menor ou igual a {len(JOGADORES)}")
+    return [jogador(j, fake.random_int(min=18, max=40)) for j in sample(JOGADORES, qtty)]

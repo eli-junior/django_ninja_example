@@ -3,16 +3,12 @@ from ninja import Field, ModelSchema, Schema
 from .models import Jogador, Time
 
 
-class TimeIn(ModelSchema):
-    class Config:
-        model = Jogador
-        model_fields = ["nome"]
+class TimeIn(Schema):
+    nome: str = Field(..., example="Red Bull Bragantino")
 
 
-# class TimeOut(ModelSchema):
-#     class Config:
-#         model = Time
-#         model_fields = ["nome", "time"]
+class TimeOut(TimeIn):
+    id: int
 
 
 class JogadorIn(Schema):

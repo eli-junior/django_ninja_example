@@ -38,10 +38,10 @@ clean: ## Remove arquivos de cache do projeto
 
 .PHONY: test run admin populate migrate migrations shell ## @ Application - See pyproject.toml
 test: ## Executa testes e salva cobertura
-	@pytest
+	@pytest -svvrP
 
 run: ## Executa a aplicação pelo servidor Django
-	@python manage.py runserver --insecure
+	@python manage.py runserver --insecure --force-color
 
 admin: ## Cria usuário admin
 	@python manage.py createsuperuser --username admin --email admin@localhost

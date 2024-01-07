@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from PROJ3CT.jogador.schemas import JogadorIn, TimeIn
+from PROJ3CT.futebol.schemas import JogadorIn, TimeIn
 
 
 def test_novo_time_schema():
