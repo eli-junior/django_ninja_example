@@ -24,7 +24,6 @@ INSTALLED_APPS = [
     "django_extensions",
     # Local apps
     "PROJ3CT.core",
-    "PROJ3CT.cadastro",
     "PROJ3CT.futebol",
 ]
 

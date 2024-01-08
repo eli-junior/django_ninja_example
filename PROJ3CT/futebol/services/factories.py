@@ -138,13 +138,13 @@ JOGADORES = (
 # Agora, 'lista_de_jogadores' é uma lista Python contendo os nomes dos jogadores.
 
 
-def time_factory(nome: str | None = None, qtty: int = 1):
-    if qtty <= 0 and qtty > len(TIMES):
+def time_factory(qtty: int = 1):
+    if qtty <= 0 or qtty > len(TIMES):
         raise ValueError(f"Quantidade de times deve ser menor ou igual a {len(TIMES)}")
     return [time(t) for t in sample(TIMES, qtty)]
 
 
-def jogador_factory(nome: str = "", idade: int = 0, qtty: int = 1):
+def jogador_factory(qtty: int = 1):
     if qtty <= 0 or qtty > len(JOGADORES):
         raise ValueError(f"Quantidade de jogadores deve ser menor ou igual a {len(JOGADORES)}")
     return [jogador(j, fake.random_int(min=18, max=40)) for j in sample(JOGADORES, qtty)]

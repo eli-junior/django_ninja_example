@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from PROJ3CT.api import api
+from PROJ3CT.api_v1 import api
 
 
 urlpatterns = [
