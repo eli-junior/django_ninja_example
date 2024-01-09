@@ -1,7 +1,8 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+coverage
+.python-version
 .pytest_cache/
-db.sqlite3
 .env
 .coverage
-coverage
+db.sqlite3
