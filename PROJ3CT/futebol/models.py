@@ -16,9 +16,12 @@ class Time(models.Model):
 
 
 class Jogador(models.Model):
-    nome = models.CharField(max_length=100)
-    time = models.ForeignKey("Time", on_delete=models.CASCADE)
+    nome = models.CharField(max_length=40)
+    nome_interno = models.CharField(max_length=40)
     idade = models.PositiveIntegerField()
+    time = models.ForeignKey("Time", on_delete=models.SET_NULL, null=True, blank=True)
+
+    unique_together = ("nome_interno", "idade")
 
     def __str__(self):
         return self.nome

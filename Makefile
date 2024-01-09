@@ -36,7 +36,7 @@ clean: ## Remove arquivos de cache do projeto
 	@echo "Done!"
 
 
-.PHONY: test run admin populate migrate migrations shell ## @ Application - See pyproject.toml
+.PHONY: test run admin populate migrate shell ## @ Application - See pyproject.toml
 test: ## Executa testes e salva cobertura
 	@pytest -svvrP
 
@@ -46,10 +46,12 @@ run: ## Executa a aplicação pelo servidor Django
 admin: ## Cria usuário admin
 	@python manage.py createsuperuser --username admin --email admin@localhost
 
+populate: ## Popula o banco de dados com dados de teste
+	@python manage.py populate
+
 migrate: ## Verifica novas migrações e as executa
 	@python manage.py makemigrations
 	@python manage.py migrate
-
 
 shell: ## Executa o shell do Django
 	@python manage.py shell_plus --ipython -- --profile=$(PROJECT)

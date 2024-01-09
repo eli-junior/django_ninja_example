@@ -4,7 +4,7 @@ from PROJ3CT.futebol.services.factories import jogador_factory, time_factory
 from PROJ3CT.futebol.services.normalize import padronizar_nome
 
 
-def test_normalize_name():
+def test_padronizar_nome_retira_acentos_e_maiusculas():
     assert padronizar_nome("São Paulo") == "sao paulo"
     assert padronizar_nome("São Paulo Futebol Clube") == "sao paulo futebol clube"
 

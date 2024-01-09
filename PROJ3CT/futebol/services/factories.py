@@ -1,5 +1,5 @@
 from collections import namedtuple
-from random import choice, sample
+from random import choice, randint, sample
 
 from faker import Faker
 
@@ -147,4 +147,4 @@ def time_factory(qtty: int = 1):
 def jogador_factory(qtty: int = 1):
     if qtty <= 0 or qtty > len(JOGADORES):
         raise ValueError(f"Quantidade de jogadores deve ser menor ou igual a {len(JOGADORES)}")
-    return [jogador(j, fake.random_int(min=18, max=40)) for j in sample(JOGADORES, qtty)]
+    return [jogador(j, randint(18, 41)) for j in sample(JOGADORES, qtty)]
