@@ -1,6 +1,6 @@
 from ninja import Field, ModelSchema, Schema
 
-from .models import Time, Jogador
+from .models import Jogador, Time
 
 
 class ErrorResponse(Schema):

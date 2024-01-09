@@ -4,13 +4,14 @@ from ninja import Router
 
 from .models import Jogador as JogadorDB
 from .models import Time as TimeDB
-from .schemas import ErrorResponse, TimeIn, TimeOut, JogadorIn, JogadorOut
+from .schemas import ErrorResponse, JogadorIn, JogadorOut, TimeIn, TimeOut
 from .services.normalize import padronizar_nome
 
 
 router = Router()
 
 # Time routes
+
 
 @router.get("times", response={200: list[TimeOut], 204: None}, tags=["Time"])
 def buscar_todos_os_times(request):
@@ -40,25 +41,27 @@ def buscar_time_pelo_nome(request, nome: str):
 
 
 @router.post("time", response={201: TimeOut, 409: ErrorResponse}, tags=["Time"])
-def cadastrar_novo_time(request, body: TimeIn):
-    nome_interno = padronizar_nome(body.nome)
+def cadastrar_novo_time(request, data: TimeIn):
+    nome_interno = padronizar_nome(data.nome)
     if TimeDB.objects.filter(nome_interno=nome_interno).exists():
         return 409, ErrorResponse(detail="Time já cadastrado na base de dados")
-    return 201, TimeDB.objects.create(nome=body.nome, nome_interno=nome_interno)
+    return 201, TimeDB.objects.create(nome=data.nome, nome_interno=nome_interno)
 
 
 @router.put("time/{id}", response={200: TimeOut, 404: ErrorResponse}, tags=["Time"])
-def atualizar_time(request, id: int, body: TimeIn):
+def atualizar_time(request, id: int, data: TimeIn):
     try:
         time = get_object_or_404(TimeDB, pk=id)
     except Http404:
         return 404, ErrorResponse(detail="Time não encontrado")
-    time.nome = body.nome
-    time.nome_interno = padronizar_nome(body.nome)
+    time.nome = data.nome
+    time.nome_interno = padronizar_nome(data.nome)
     time.save()
     return 200, time
 
+
 # Jogadores routes
+
 
 @router.get("jogadores", response={200: list[JogadorOut], 204: None}, tags=["Jogadores"])
 def buscar_todos_os_jogadores(request):
@@ -88,33 +91,33 @@ def buscar_jogador_pelo_nome(request, nome: str):
 
 
 @router.post("jogador", response={201: JogadorOut, 409: ErrorResponse, 404: ErrorResponse}, tags=["Jogador"])
-def cadastrar_novo_jogador(request, body: JogadorIn):
-    nome_interno = padronizar_nome(body.nome)
+def cadastrar_novo_jogador(request, data: JogadorIn):
+    nome_interno = padronizar_nome(data.nome)
     if JogadorDB.objects.filter(nome_interno=nome_interno).exists():
         return 409, ErrorResponse(detail="Jogador já cadastrado na base de dados")
-    if body.time:
+    if data.time:
         try:
-            time = get_object_or_404(TimeDB, pk=body.time)
+            time = get_object_or_404(TimeDB, pk=data.time)
         except Http404:
             return 404, ErrorResponse(detail="Time não encontrado")
     else:
         time = None
-    return 201, JogadorDB.objects.create(nome=body.nome, idade=body.idade, nome_interno=nome_interno, time=time)
+    return 201, JogadorDB.objects.create(nome=data.nome, idade=data.idade, nome_interno=nome_interno, time=time)
 
 
 @router.put("jogador/{id}", response={200: JogadorOut, 404: ErrorResponse}, tags=["Jogador"])
-def atualizar_jogador(request, id: int, body: JogadorIn):
+def atualizar_jogador(request, id: int, data: JogadorIn):
     try:
-        attempt = "Jogador"
+        attempt = "jogador"
         jogador = get_object_or_404(JogadorDB, pk=id)
-        attempt = "Time"
-        time = get_object_or_404(TimeDB, pk=body.time)
+        attempt = "time"
+        time = get_object_or_404(TimeDB, pk=data.time)
 
     except Http404:
-        return 404, ErrorResponse(detail=f"{attempt} não encontrado")
-    jogador.nome = body.nome
-    jogador.nome_interno = padronizar_nome(body.nome)
-    jogador.idade = body.idade
+        return 404, ErrorResponse(detail=f"Id do {attempt} não encontrado")
+    jogador.nome = data.nome
+    jogador.nome_interno = padronizar_nome(data.nome)
+    jogador.idade = data.idade
     jogador.time = time
     jogador.save()
     return 200, jogador
