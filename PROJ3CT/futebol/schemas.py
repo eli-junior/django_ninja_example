@@ -1,6 +1,6 @@
 from ninja import Field, ModelSchema, Schema
 
-from .models import Time
+from .models import Time, Jogador
 
 
 class ErrorResponse(Schema):
@@ -20,4 +20,10 @@ class TimeOut(ModelSchema):
 class JogadorIn(Schema):
     nome: str = Field(..., example="Cristiano Ronaldo")
     idade: int = Field(..., example="40", gt=15, lt=51)
-    time: int
+    time: int | None = Field(None, example=1)
+
+
+class JogadorOut(ModelSchema):
+    class Config:
+        model = Jogador
+        model_fields = ["id", "nome", "idade", "time"]
