@@ -1,5 +1,5 @@
 from collections import namedtuple
-from random import choice, randint, sample
+from random import randint, sample
 
 from faker import Faker
 
