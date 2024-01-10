@@ -5,6 +5,9 @@ from PROJ3CT.futebol.models import Jogador
 from PROJ3CT.futebol.services.factories import jogador_factory
 
 
+CONTENT_TYPE = "application/json"
+
+
 def _cadastrar_jogador_db(qtty: int = 1, time=None):
     jogadores = []
     novo_jogador = jogador_factory(qtty=qtty)
@@ -72,32 +75,74 @@ def test_request_buscar_jogador_por_nome_com_1_cadastrado_json_resposta(client):
 
 @pytest.mark.django_db
 def test_request_criar_novo_jogador_retorna_201(client):
-    content_type = "application/json"
     data = {"nome": "Fulano de Tal", "idade": 20}
-    response = client.post(reverse("api-1.0.0:cadastrar_novo_jogador"), data, content_type=content_type)
+    response = client.post(reverse("api-1.0.0:cadastrar_novo_jogador"), data, content_type=CONTENT_TYPE)
     assert response.status_code == 201
 
 
 @pytest.mark.django_db
 def test_request_criar_novo_jogador_json_resposta(client):
-    content_type = "application/json"
     data = {"nome": "Fulano de Tal", "idade": 20}
-    response = client.post(reverse("api-1.0.0:cadastrar_novo_jogador"), data, content_type=content_type)
+    response = client.post(reverse("api-1.0.0:cadastrar_novo_jogador"), data, content_type=CONTENT_TYPE)
     assert response.json() == {"id": 1, "nome": "Fulano de Tal", "idade": 20, "time": None}
 
 
 @pytest.mark.django_db
 def test_request_criar_novo_jogador_com_nome_ja_cadastrado(client):
-    content_type = "application/json"
     data = {"nome": "Fulano de Tal", "idade": 20}
-    client.post(reverse("api-1.0.0:cadastrar_novo_jogador"), data, content_type=content_type)
-    response = client.post(reverse("api-1.0.0:cadastrar_novo_jogador"), data, content_type=content_type)
+    client.post(reverse("api-1.0.0:cadastrar_novo_jogador"), data, content_type=CONTENT_TYPE)
+    response = client.post(reverse("api-1.0.0:cadastrar_novo_jogador"), data, content_type=CONTENT_TYPE)
     assert response.status_code == 409
 
 
 @pytest.mark.django_db
 def test_request_criar_jogador_com_time_inexistente_retorna_404(client):
-    content_type = "application/json"
     data = {"nome": "Fulano de Tal", "idade": 20, "time": 1}
-    response = client.post(reverse("api-1.0.0:cadastrar_novo_jogador"), data, content_type=content_type)
+    response = client.post(reverse("api-1.0.0:cadastrar_novo_jogador"), data, content_type=CONTENT_TYPE)
     assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_atualizar_jogador_com_sucesso(client, subtests):
+    _cadastrar_jogador_db()[0]
+
+    data = {"nome": "Fulano de Tal", "idade": 20}
+    response = client.put(reverse("api-1.0.0:atualizar_jogador", args=[1]), data, content_type=CONTENT_TYPE)
+
+    tests = (
+        (response.status_code, 200),
+        (response.json(), {"id": 1, "nome": "Fulano de Tal", "idade": 20, "time": None}),
+    )
+    for entrada, saida in tests:
+        with subtests.test(msg="Testa os dados do jogador atualizado"):
+            assert entrada == saida
+
+
+@pytest.mark.django_db
+def test_atualizar_jogador_com_id_inexistente(client, subtests):
+    data = {"nome": "Fulano de Tal", "idade": 20}
+    response = client.put(reverse("api-1.0.0:atualizar_jogador", args=[1]), data, content_type=CONTENT_TYPE)
+    tests = (
+        (response.status_code, 404),
+        (response.json(), {"detail": "Id do jogador não encontrado"}),
+    )
+
+    for entrada, saida in tests:
+        with subtests.test(msg="Não atualiza o jogador quando o id não existe"):
+            assert entrada == saida
+
+
+@pytest.mark.django_db
+def test_atualizar_jogador_com_id_do_time_inexistente(client, subtests):
+    _cadastrar_jogador_db()[0]
+
+    data = {"nome": "Fulano de Tal", "idade": 20, "time": 1}
+    response = client.put(reverse("api-1.0.0:atualizar_jogador", args=[1]), data, content_type=CONTENT_TYPE)
+    tests = (
+        (response.status_code, 404),
+        (response.json(), {"detail": "Id do time não encontrado"}),
+    )
+
+    for entrada, saida in tests:
+        with subtests.test(msg="não atualiza o time do jogador quando o id do time não existe"):
+            assert entrada == saida

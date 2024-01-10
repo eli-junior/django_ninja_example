@@ -110,8 +110,11 @@ def atualizar_jogador(request, id: int, data: JogadorIn):
     try:
         attempt = "jogador"
         jogador = get_object_or_404(JogadorDB, pk=id)
-        attempt = "time"
-        time = get_object_or_404(TimeDB, pk=data.time)
+
+        time = None
+        if data.time:
+            attempt = "time"
+            time = get_object_or_404(TimeDB, pk=data.time)
 
     except Http404:
         return 404, ErrorResponse(detail=f"Id do {attempt} não encontrado")
