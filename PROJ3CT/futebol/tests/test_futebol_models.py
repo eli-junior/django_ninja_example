@@ -5,7 +5,6 @@ from PROJ3CT.futebol.services.factories import jogador_factory, time_factory
 from PROJ3CT.futebol.services.normalize import padronizar_nome
 
 
-
 @pytest.mark.django_db
 def test_criar_time(subtests):
     novo_time = time_factory()[0]
@@ -18,7 +17,7 @@ def test_criar_time(subtests):
     )
 
     for entrada, saida in testes:
-        with subtests.test(msg='Testa os dados do time criado', entrada=entrada, saida=saida):
+        with subtests.test(msg="Testa os dados do time criado", entrada=entrada, saida=saida):
             assert entrada == saida
 
 
@@ -28,7 +27,7 @@ def test_criar_jogador(subtests):
     novo_jogador = jogador_factory()[0]
     time = Time.objects.create(nome=novo_time.nome)
     jogador = Jogador.objects.create(**novo_jogador._asdict(), time=time)
-    
+
     testes = (
         (Jogador.objects.count(), 1),
         (jogador.nome, novo_jogador.nome),
@@ -37,7 +36,7 @@ def test_criar_jogador(subtests):
         (str(jogador), novo_jogador.nome),
     )
     for entrada, saida in testes:
-        with subtests.test(msg='Testa os dados do jogador criado', entrada=entrada, saida=saida):
+        with subtests.test(msg="Testa os dados do jogador criado", entrada=entrada, saida=saida):
             assert entrada == saida
 
 
