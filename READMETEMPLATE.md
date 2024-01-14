@@ -1,3 +1,5 @@
+# ATENÇÃO! Esta página é somente um TEMPLATE de readme e deve ser complementada com as informações do projeto.
+
 <div align="center" style="text-align: center;">
   <a href="#-sobre">Sobre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;

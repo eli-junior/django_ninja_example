@@ -44,7 +44,7 @@ run: ## Executa a aplicação pelo servidor Django
 	@python manage.py runserver --insecure --force-color
 
 admin: ## Cria usuário admin
-	@python manage.py createsuperuser --username admin --email admin@localhost
+	@python manage.py createsuperuser --email admin@localhost
 
 populate: ## Popula o banco de dados com dados de teste
 	@python manage.py populate
